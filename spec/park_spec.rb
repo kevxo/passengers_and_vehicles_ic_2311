@@ -76,4 +76,31 @@ RSpec.describe Park do
 
     expect(park.revenue).to eq(50)
   end
+
+  it "should track patrons" do
+    park = Park.new("Bayfront Park", 25)
+
+    vehicle_1 = Vehicle.new("2001", "Honda", "Civic")
+    vehicle_2 = Vehicle.new("2001", "Toyota", "Tundra")
+    vehicle_3 = Vehicle.new("2001", "Nissan", "Altima")
+
+    charlie = Passenger.new({"name" => "Charlie", "age" => 18})
+    jude = Passenger.new({"name" => "Jude", "age" => 20})
+    taylor = Passenger.new({"name" => "Taylor", "age" => 16})
+
+    vehicle_1.add_passenger(charlie)
+    vehicle_2.add_passenger(jude)
+    vehicle_3.add_passenger(taylor)
+
+    park.add_vehicle(vehicle_1)
+    park.add_vehicle(vehicle_2)
+    park.add_vehicle(vehicle_3)
+
+    expected = {
+      "names_of_attendees" => [charlie.name, jude.name, taylor.name],
+      "minors" => [taylor.name],
+      "adults" => [charlie.name, jude.name]
+    }
+    expect(park.patrons).to eq(expected)
+  end
 end
